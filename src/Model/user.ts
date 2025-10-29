@@ -15,7 +15,7 @@ export type     Usuario = {
 
 //função de inserir
 export async function insert(user: Usuario) {
-    await connection.query('INSERT INTO usuario(nome, email, senha, ) VALUES ($1, $2, $3);',
+    await connection.query('INSERT INTO usuario(nome, email, senha ) VALUES ($1, $2, $3)',
       [
         user.nome,
         user.email,
@@ -25,7 +25,7 @@ export async function insert(user: Usuario) {
   }
  // atualizar pelo id
   export async function update(user: Usuario) {
-    await connection.query('UPDATE users SET nome=$1, email=$2, senhad$3, WHERE id_usuario=$4 ',
+    await connection.query('UPDATE usuario SET nome=$1, email=$2, senhad$3, WHERE id_usuario=$4',
       [
         user.nome,
         user.email,
@@ -37,20 +37,20 @@ export async function insert(user: Usuario) {
   
 // deletar pelo id
     export async function deleteById(id: string) {
-        await connection.query('DELETE FROM users WHERE id_usuario=$1', 
+        await connection.query('DELETE FROM usuario WHERE id_usuario=$1', 
           [id]);
       }
 
       //função busca um Usuario no banco pelo ID.
 export async function getById(id: string) {
-    const { rows } = await connection.query('SELECT * FROM users where id_usuario = $1',
+    const { rows } = await connection.query('SELECT * FROM usuario where id_usuario = $1',
        [id]);
     return rows[0];
   }
 
 // busca o usuario pelo email
   export async function getByEmail(email: string) {
-    const { rows } = await connection.query('SELECT * FROM users where email = $1', 
+    const { rows } = await connection.query('SELECT * FROM usuario where email = $1', 
       [email]);
     return rows[0];
   }

@@ -56,8 +56,6 @@ export async function register(req: Request, res: Response) {
   };
 
   await insert(user)
-  
-
 
   res.render('login', {
       message: {
