@@ -1,5 +1,6 @@
 import express from 'express';
 import { userRoutes } from './routes/user_routes';
+import { admRoutes } from './routes/adm_routes';
 
 const app = express();
 
@@ -14,6 +15,10 @@ app.get('/', function (req, res) {
 });
 
 app.use(userRoutes);
+app.use(admRoutes
+    
+    
+    );
 
 app.listen(3333, () => {
     console.log('Servidor rodando no endereço http://localhost:3333');

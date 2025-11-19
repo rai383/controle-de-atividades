@@ -5,7 +5,7 @@
 // 4. comunicar com a camada MODEL 
 
 import { Request, Response } from "express";
-import { getByEmail, insert,  Usuario } from "../Model/user";
+import { getByEmail, getByEmailAndSenha, insert,  Usuario } from "../Model/user";
 
 // Parte  1 -> funções que carregam páginas
 
@@ -64,4 +64,35 @@ export async function register(req: Request, res: Response) {
         title: 'Sucesso'
       }
     });
+}
+
+
+export async function login(req: Request, res: Response) {
+  const { email, senha } = req.body 
+
+  if ( !email || !senha) {
+    return res.render('login', {
+      message: {
+        type: 'error',
+        value: 'Email ou Senha incorretos!',
+        title: 'dados invalidos'
+      }
+    });
+  }
+
+ const user = await getByEmailAndSenha(email, senha);
+
+ if (!user) {
+
+  return res.render('login', {
+    message: {
+      type: 'error',
+      value: 'Email ou Senha incorretos!',
+      title: 'dados invalidos'
+    }
+  });
+ }
+ 
+ return res.redirect('/adm');
+
 }

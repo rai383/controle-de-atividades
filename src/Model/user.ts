@@ -54,3 +54,11 @@ export async function getById(id: string) {
       [email]);
     return rows[0];
   }
+
+  export async function getByEmailAndSenha (email: string, senha: string ) {
+    const {rows} = await connection.query('SELECT * from usuario WHERE email = $1 AND senha = $2', 
+    [email, senha]
+    );
+    return rows[0] 
+  }
+  
