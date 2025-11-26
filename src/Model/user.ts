@@ -4,7 +4,7 @@ import { connection } from "../infra/connection";
 
 //Tipos
 //definição de modelo (entidade) User
-export type     Usuario = {
+export type Usuario = {
   id_usuario?: number,
   nome: string;
   email: string;
@@ -15,50 +15,49 @@ export type     Usuario = {
 
 //função de inserir
 export async function insert(user: Usuario) {
-    await connection.query('INSERT INTO usuario(nome, email, senha ) VALUES ($1, $2, $3)',
-      [
-        user.nome,
-        user.email,
-        user.senha,       
-      ]
-    );
-  }
- // atualizar pelo id
-  export async function update(user: Usuario) {
-    await connection.query('UPDATE usuario SET nome=$1, email=$2, senhad$3, WHERE id_usuario=$4',
-      [
-        user.nome,
-        user.email,
-        user.senha,
-        user.id_usuario
-      ]
-    );
-  }
-  
-// deletar pelo id
-    export async function deleteById(id: string) {
-        await connection.query('DELETE FROM usuario WHERE id_usuario=$1', 
-          [id]);
-      }
+  await connection.query('INSERT INTO usuario(nome, email, senha ) VALUES ($1, $2, $3)',
+    [
+      user.nome,
+      user.email,
+      user.senha,
+    ]
+  );
+}
+// atualizar pelo id
+export async function update(user: Usuario) {
+  await connection.query('UPDATE usuario SET nome=$1, email=$2, senhad$3, WHERE id_usuario=$4',
+    [
+      user.nome,
+      user.email,
+      user.senha,
+      user.id_usuario
+    ]
+  );
+}
 
-      //função busca um Usuario no banco pelo ID.
+// deletar pelo id
+export async function deleteById(id: string) {
+  await connection.query('DELETE FROM usuario WHERE id_usuario=$1',
+    [id]);
+}
+
+//função busca um Usuario no banco pelo ID.
 export async function getById(id: string) {
-    const { rows } = await connection.query('SELECT * FROM usuario where id_usuario = $1',
-       [id]);
-    return rows[0];
-  }
+  const { rows } = await connection.query('SELECT * FROM usuario where id_usuario = $1',
+    [id]);
+  return rows[0];
+}
 
 // busca o usuario pelo email
-  export async function getByEmail(email: string) {
-    const { rows } = await connection.query('SELECT * FROM usuario where email = $1', 
-      [email]);
-    return rows[0];
-  }
+export async function getByEmail(email: string) {
+  const { rows } = await connection.query('SELECT * FROM usuario where email = $1',
+    [email]);
+  return rows[0];
+}
 
-  export async function getByEmailAndSenha (email: string, senha: string ) {
-    const {rows} = await connection.query('SELECT * from usuario WHERE email = $1 AND senha = $2', 
+export async function getByEmailAndSenha(email: string, senha: string) {
+  const { rows } = await connection.query('SELECT * from usuario WHERE email = $1 AND senha = $2',
     [email, senha]
-    );
-    return rows[0] 
-  }
-  
+  );
+  return rows[0]
+}

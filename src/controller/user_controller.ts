@@ -5,7 +5,7 @@
 // 4. comunicar com a camada MODEL 
 
 import { Request, Response } from "express";
-import { getByEmail, getByEmailAndSenha, insert,  Usuario } from "../Model/user";
+import { getByEmail, getByEmailAndSenha, insert, Usuario } from "../Model/user";
 
 // Parte  1 -> funções que carregam páginas
 
@@ -35,11 +35,10 @@ export async function register(req: Request, res: Response) {
     });
   }
 
- 
   const userFounded = await getByEmail(email);
 
   if (userFounded) {
-      return res.render('login', {
+    return res.render('login', {
       message: {
         type: 'error',
         value: 'E-mail já existe!',
@@ -47,30 +46,30 @@ export async function register(req: Request, res: Response) {
       }
     });
   }
-   
-  const user: Usuario={
+
+  const user: Usuario = {
     nome,
     email,
     senha
-   
+
   };
 
   await insert(user)
 
   res.render('login', {
-      message: {
-        type: 'sucess',
-        value: 'Usuário cadastrado com sucesso!',
-        title: 'Sucesso'
-      }
-    });
+    message: {
+      type: 'sucess',
+      value: 'Usuário cadastrado com sucesso!',
+      title: 'Sucesso'
+    }
+  });
 }
 
 
 export async function login(req: Request, res: Response) {
-  const { email, senha } = req.body 
+  const { email, senha } = req.body
 
-  if ( !email || !senha) {
+  if (!email || !senha) {
     return res.render('login', {
       message: {
         type: 'error',
@@ -80,19 +79,23 @@ export async function login(req: Request, res: Response) {
     });
   }
 
- const user = await getByEmailAndSenha(email, senha);
+  const user = await getByEmailAndSenha(email, senha);
 
- if (!user) {
+  if (!user) {
+    return res.render('login', {
+      message: {
+        type: 'error',
+        value: 'Email ou Senha incorretos!',
+        title: 'dados invalidos'
+      }
+    });
+  }
 
-  return res.render('login', {
-    message: {
-      type: 'error',
-      value: 'Email ou Senha incorretos!',
-      title: 'dados invalidos'
-    }
-  });
- }
- 
- return res.redirect('/adm');
-
+(req.session as any).usuario = {
+  nome: user.nome,
+  email: user.email,
+  id: user.id
+}
+  
+  return res.redirect('/adm');
 }
